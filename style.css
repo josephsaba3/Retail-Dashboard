@@ -1,0 +1,92 @@
+/* Hide Streamlit chrome */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+.stDeployButton {display: none;}
+
+/* Global font + background */
+html, body {
+    font-family: 'DM Sans', sans-serif !important;
+}
+[data-testid="stAppViewContainer"],
+.stApp { background-color: #F7F5F2; }
+
+/* Sidebar - dark */
+[data-testid="stSidebar"] {
+    background-color: #2D2D2D !important;
+}
+[data-testid="stSidebar"] * {
+    color: #F7F5F2 !important;
+}
+[data-testid="stSidebar"] .stSelectbox label,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] p { color: #F7F5F2 !important; }
+
+[data-testid="stSidebar"] [data-baseweb="select"] > div {
+    background-color: #3D3D3D !important;
+    border-color: #555 !important;
+    color: #F7F5F2 !important;
+}
+
+/* KPI card */
+.kpi-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 18px 20px 16px 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid #E8E3DC;
+    border-top: 4px solid var(--accent);
+}
+.kpi-label {
+    font-size: 12pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6B6B6B;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.kpi-period {
+    font-size: 10px;
+    color: #6B6B6B;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+.kpi-val { font-size: 28px; font-weight: 700; line-height: 1.1; text-align: center; }
+.kpi-sub { font-size: 11px; color: #6B6B6B; margin-top: 4px; text-align: center; }
+.pos { color: #2A9D6E; }
+.neg { color: #C94444; }
+.neu { color: #D46422; }
+
+/* Section headers */
+.section-hdr {
+    font-size: 12px;
+    font-weight: 600;
+    color: #D46422;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 2px solid #E8E3DC;
+    padding-bottom: 5px;
+    margin-bottom: 2px;
+}
+
+/* Top bar */
+.topbar {
+    background: #2D2D2D;
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.topbar-title { font-size: 24px; font-weight: 700; color: #FFFFFF; }
+.topbar-sub { font-size: 13px; color: #9B9B9B; margin-top: 2px; }
+.topbar-rev-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #9B9B9B; text-align: right; }
+.topbar-rev-val { font-size: 26px; font-weight: 700; color: #D46422; text-align: right; line-height: 1.1; }
+
+.stMainBlockContainer {
+    padding: 0 3em;
+}
