@@ -1,7 +1,7 @@
 /* Hide Streamlit chrome */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
+.stAppDeployButton { visibility: hidden;}
 .stDeployButton {display: none;}
 
 /* Global font + background */
@@ -28,6 +28,9 @@ html, body {
     color: #F7F5F2 !important;
 }
 
+.stAppHeader {
+    background:none;
+} 
 /* KPI card */
 .kpi-card {
     background: #FFFFFF;
