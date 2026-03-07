@@ -187,7 +187,7 @@ st.markdown(
     f"""
     <div class="topbar">
         <div>
-            <div class="topbar-title">FMCG Retail Dashboard</div>
+            <div class="topbar-title">Category Dashboard</div>
             <div class="topbar-sub">
                 {period_label} vs {prior_label} &nbsp;|&nbsp;
                 {curr_start.strftime('%d %b %Y')} – {curr_end.strftime('%d %b %Y')} &nbsp;|&nbsp;
