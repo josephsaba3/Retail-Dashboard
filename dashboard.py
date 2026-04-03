@@ -241,7 +241,7 @@ with r1c1:
         hole=0.45,
     )
     fig.update_traces(textposition="outside", textinfo="percent+label", textfont_size=12)
-    fig.update_layout(**CHART_BASE, height=310, showlegend=False,
+    fig.update_layout(**CHART_BASE, height=330, showlegend=False,
                       margin=dict(t=10, b=10, l=10, r=10))
     st.plotly_chart(fig, use_container_width=True)
 
@@ -362,7 +362,7 @@ with r3c2:
         textposition="outside", cliponaxis=False,
     ))
     fig.add_vline(x=0, line_width=1.5, line_color="#E4DFD6")
-    fig.update_layout(**CHART_BASE, height=310,
+    fig.update_layout(**CHART_BASE, height=350,
                       xaxis=dict(title="% Growth vs YA", showgrid=True, gridcolor="#E4DFD6", zeroline=False),
                       yaxis=dict(showgrid=False),
                       margin=dict(t=10, b=10, l=10, r=80))
