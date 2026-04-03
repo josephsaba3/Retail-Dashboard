@@ -1,95 +1,177 @@
-/* Hide Streamlit chrome */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-.stAppDeployButton { visibility: hidden;}
-.stDeployButton {display: none;}
+/* ═══════════════════════════════════════════════════════════════════════════
+   Category Dashboard — Rebranded
+   Warm editorial aesthetic · Forest green / copper / warm neutrals
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Global font + background */
+/* Hide Streamlit chrome */
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+.stAppDeployButton { visibility: hidden; }
+.stDeployButton { display: none; }
+.stAppHeader { background: none; }
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 html, body {
     font-family: 'DM Sans', sans-serif !important;
+    -webkit-font-smoothing: antialiased;
 }
-[data-testid="stAppViewContainer"],
-.stApp { background-color: #F7F5F2; }
 
-/* Sidebar - dark */
+[data-testid="stAppViewContainer"],
+.stApp {
+    background-color: #FAF8F5;
+}
+
+.stMainBlockContainer {
+    padding: 0 3em;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
 [data-testid="stSidebar"] {
-    background-color: #2D2D2D !important;
+    background-color: #1C2A1F !important;
+    border-right: 1px solid rgba(46,125,50,0.15);
 }
+
 [data-testid="stSidebar"] * {
-    color: #F7F5F2 !important;
+    color: #E8E4DC !important;
 }
+
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] p { color: #F7F5F2 !important; }
+[data-testid="stSidebar"] p {
+    color: #E8E4DC !important;
+}
+
+[data-testid="stSidebar"] h2 {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.14em !important;
+    color: #8BA68E !important;
+    border-bottom: 1px solid rgba(139,166,142,0.2);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
 
 [data-testid="stSidebar"] [data-baseweb="select"] > div {
-    background-color: #3D3D3D !important;
-    border-color: #555 !important;
-    color: #F7F5F2 !important;
+    background-color: #263A2A !important;
+    border-color: #3A5240 !important;
+    color: #E8E4DC !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    transition: border-color 0.2s ease;
 }
 
-.stAppHeader {
-    background:none;
-} 
-/* KPI card */
+[data-testid="stSidebar"] [data-baseweb="select"] > div:hover {
+    border-color: #5A8A60 !important;
+}
+
+/* ── Top Bar ──────────────────────────────────────────────────────────────── */
+.topbar {
+    background: linear-gradient(135deg, #1C2A1F 0%, #263A2A 100%);
+    border-radius: 10px;
+    padding: 20px 28px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 12px rgba(28,42,31,0.12);
+}
+
+.topbar-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+}
+
+.topbar-sub {
+    font-size: 12px;
+    color: #8BA68E;
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+}
+
+.topbar-rev-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8BA68E;
+    text-align: right;
+    font-weight: 500;
+}
+
+.topbar-rev-val {
+    font-size: 28px;
+    font-weight: 700;
+    color: #C67D3A;
+    text-align: right;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+/* ── KPI Cards ────────────────────────────────────────────────────────────── */
 .kpi-card {
     background: #FFFFFF;
-    border-radius: 8px;
-    padding: 18px 20px 16px 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    border: 1px solid #E8E3DC;
-    border-top: 4px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px 22px 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03);
+    border: none;
+    border-top: 3px solid var(--accent);
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
 }
+
+.kpi-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    transform: translateY(-1px);
+}
+
 .kpi-label {
-    font-size: 12pt;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #6B6B6B;
+    letter-spacing: 0.1em;
+    color: #7A7568;
     font-weight: 600;
     margin-bottom: 10px;
     text-align: center;
 }
+
 .kpi-period {
     font-size: 10px;
-    color: #6B6B6B;
+    color: #9B9689;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 4px;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
 }
-.kpi-val { font-size: 28px; font-weight: 700; line-height: 1.1; text-align: center; }
-.kpi-sub { font-size: 11px; color: #6B6B6B; margin-top: 4px; text-align: center; }
-.pos { color: #2A9D6E; }
-.neg { color: #C94444; }
-.neu { color: #D46422; }
 
-/* Section headers */
+.kpi-val {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+.kpi-sub {
+    font-size: 11px;
+    color: #9B9689;
+    margin-top: 6px;
+    text-align: center;
+    letter-spacing: 0.01em;
+}
+
+.pos { color: #2E7D32; }
+.neg { color: #C44D3F; }
+.neu { color: #C67D3A; }
+
+/* ── Section Headers ──────────────────────────────────────────────────────── */
 .section-hdr {
-    font-size: 12px;
-    font-weight: 600;
-    color: #D46422;
+    font-size: 11px;
+    font-weight: 700;
+    color: #2E7D32;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    border-bottom: 2px solid #E8E3DC;
-    padding-bottom: 5px;
-    margin-bottom: 2px;
-}
-
-/* Top bar */
-.topbar {
-    background: #2D2D2D;
-    border-radius: 8px;
-    padding: 16px 24px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.topbar-title { font-size: 24px; font-weight: 700; color: #FFFFFF; }
-.topbar-sub { font-size: 13px; color: #9B9B9B; margin-top: 2px; }
-.topbar-rev-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #9B9B9B; text-align: right; }
-.topbar-rev-val { font-size: 26px; font-weight: 700; color: #D46422; text-align: right; line-height: 1.1; }
-
-.stMainBlockContainer {
-    padding: 0 3em;
+    letter-spacing: 0.12em;
+    border-bottom: 2px solid #E4DFD6;
+    padding-bottom: 6px;
+    margin-bottom: 4px;
 }

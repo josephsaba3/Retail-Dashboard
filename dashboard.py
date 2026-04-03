@@ -162,19 +162,19 @@ branda_shr_chg = branda_shr_c - branda_shr_p
 
 # ── Chart constants ───────────────────────────────────────────────────────────
 BRAND_COLORS = {
-    "BrandA": "#2D2D2D",
-    "BrandB": "#D46422",
-    "BrandC": "#2A9D6E",
-    "BrandD": "#1a6b8a",
-    "Private Label": "#7B4F8A",
+    "BrandA": "#2E7D32",      # forest green — hero brand
+    "BrandB": "#C67D3A",      # copper
+    "BrandC": "#4A7B9D",      # slate blue
+    "BrandD": "#1C2A1F",      # dark forest
+    "Private Label": "#9B8A7A",  # warm taupe
 }
 
-CHART_SERIES = ["#D46422", "#2A9D6E", "#1a6b8a", "#8B6914", "#7B4F8A", "#C94444"]
+CHART_SERIES = ["#2E7D32", "#C67D3A", "#4A7B9D", "#1C2A1F", "#9B8A7A", "#C44D3F"]
 
 CHART_BASE = dict(
     paper_bgcolor="#FFFFFF",
     plot_bgcolor="#FFFFFF",
-    font=dict(family="DM Sans, Arial, sans-serif", size=12, color="#2D2D2D"),
+    font=dict(family="DM Sans, sans-serif", size=12, color="#3A3A3A"),
 )
 
 
@@ -220,11 +220,11 @@ def render_kpi(col, accent, label, val, fmt_v, sub):
     )
 
 
-render_kpi(k1, "#D46422", "Sales % Growth vs YA", sales_g,
+render_kpi(k1, "#C67D3A", "Sales % Growth vs YA", sales_g,
            fmt_pct(sales_g), f"{fmt_dollars(rev_c)} vs {fmt_dollars(rev_p)}")
-render_kpi(k2, "#D46422", "Units % Growth vs YA", units_g,
+render_kpi(k2, "#C67D3A", "Units % Growth vs YA", units_g,
            fmt_pct(units_g), f"{units_c:,.0f} vs {units_p:,.0f} units")
-render_kpi(k3, "#D46422", "BrandA Share vs YA", branda_shr_chg,
+render_kpi(k3, "#C67D3A", "BrandA Share vs YA", branda_shr_chg,
            fmt_pp(branda_shr_chg), f"{branda_shr_c:.1f}% share vs {branda_shr_p:.1f}% YA")
 
 st.markdown("<div style='height:18px'></div>", unsafe_allow_html=True)
@@ -237,7 +237,7 @@ with r1c1:
     cat_rev = curr_univ.groupby("category")["revenue"].sum().reset_index()
     fig = px.pie(
         cat_rev, values="revenue", names="category",
-        color_discrete_sequence=["#2D2D2D", "#D46422"],
+        color_discrete_sequence=["#1C2A1F", "#C67D3A"],
         hole=0.45,
     )
     fig.update_traces(textposition="outside", textinfo="percent+label", textfont_size=12)
@@ -255,13 +255,13 @@ with r1c2:
 
     fig = go.Figure(go.Bar(
         y=seg_g["segment"], x=seg_g["growth"], orientation="h",
-        marker_color=["#2A9D6E" if v >= 0 else "#C94444" for v in seg_g["growth"]],
+        marker_color=["#2E7D32" if v >= 0 else "#C44D3F" for v in seg_g["growth"]],
         text=[f"{v:+.1f}%" for v in seg_g["growth"]],
         textposition="outside", cliponaxis=False,
     ))
-    fig.add_vline(x=0, line_width=1.5, line_color="#E8E3DC")
+    fig.add_vline(x=0, line_width=1.5, line_color="#E4DFD6")
     fig.update_layout(**CHART_BASE, height=310,
-                      xaxis=dict(title="% Growth vs YA", showgrid=True, gridcolor="#E8E3DC", zeroline=False),
+                      xaxis=dict(title="% Growth vs YA", showgrid=True, gridcolor="#E4DFD6", zeroline=False),
                       yaxis=dict(showgrid=False),
                       margin=dict(t=10, b=10, l=10, r=80))
     st.plotly_chart(fig, use_container_width=True)
@@ -299,14 +299,14 @@ with r2c2:
     fig = go.Figure(go.Bar(
         y=delta["brand"], x=delta["change"], orientation="h",
         marker_color=[BRAND_COLORS.get(b, "#6B6B6B") for b in delta["brand"]],
-        marker_line_color=["#2A9D6E" if v >= 0 else "#C94444" for v in delta["change"]],
+        marker_line_color=["#2E7D32" if v >= 0 else "#C44D3F" for v in delta["change"]],
         marker_line_width=2,
         text=[f"{v:+.2f}pp" for v in delta["change"]],
         textposition="outside", cliponaxis=False,
     ))
-    fig.add_vline(x=0, line_width=1.5, line_color="#E8E3DC")
+    fig.add_vline(x=0, line_width=1.5, line_color="#E4DFD6")
     fig.update_layout(**CHART_BASE, height=320,
-                      xaxis=dict(title="Share change vs. YA", showgrid=True, gridcolor="#E8E3DC", zeroline=False),
+                      xaxis=dict(title="Share change vs. YA", showgrid=True, gridcolor="#E4DFD6", zeroline=False),
                       yaxis=dict(showgrid=False),
                       margin=dict(t=10, b=10, l=10, r=80))
     st.plotly_chart(fig, use_container_width=True)
@@ -324,7 +324,7 @@ with r3c1:
 
     fig = px.bar(
         seg_yoy, x="segment", y="revenue", color="period", barmode="group",
-        color_discrete_map={period_label: "#D46422", prior_label: "#C0C0C0"},
+        color_discrete_map={period_label: "#C67D3A", prior_label: "#B8B0A4"},
         labels={"revenue": "Revenue ($)", "segment": "", "period": ""},
     )
 
@@ -342,14 +342,14 @@ with r3c1:
                 text=f"<b>{chg:+.1f}%</b>",
                 showarrow=False,
                 yshift=10,
-                font=dict(size=11, color="#2A9D6E" if chg >= 0 else "#C94444"),
+                font=dict(size=11, color="#2E7D32" if chg >= 0 else "#C44D3F"),
                 xref="x", yref="y",
             )
 
     fig.update_layout(**CHART_BASE, height=350,
                       legend=dict(title="", orientation="h", yanchor="bottom", y=1.02, x=0),
                       xaxis_tickangle=-20,
-                      yaxis=dict(showgrid=True, gridcolor="#E8E3DC", title="Revenue ($)"),
+                      yaxis=dict(showgrid=True, gridcolor="#E4DFD6", title="Revenue ($)"),
                       xaxis=dict(showgrid=False),
                       margin=dict(t=30, b=60, l=10, r=10))
     st.plotly_chart(fig, use_container_width=True)
@@ -374,19 +374,19 @@ with r3c2:
         fig.add_trace(go.Scatter(
             x=prior_weekly["week"], y=prior_weekly["revenue"],
             mode="lines+markers", name=prior_label,
-            line=dict(color="#C0C0C0", width=2.5, dash="dot"),
-            marker=dict(size=8, color="#C0C0C0"),
+            line=dict(color="#B8B0A4", width=2.5, dash="dot"),
+            marker=dict(size=8, color="#B8B0A4"),
         ))
         fig.add_trace(go.Scatter(
             x=curr_weekly["week"], y=curr_weekly["revenue"],
             mode="lines+markers", name=period_label,
-            line=dict(color="#D46422", width=2.5),
-            marker=dict(size=8, color="#D46422"),
+            line=dict(color="#C67D3A", width=2.5),
+            marker=dict(size=8, color="#C67D3A"),
         ))
         fig.update_layout(**CHART_BASE, height=330,
                           legend=dict(title="", orientation="h", yanchor="bottom", y=1.02, x=0),
-                          xaxis=dict(title="Week", showgrid=True, gridcolor="#E8E3DC", dtick=1),
-                          yaxis=dict(title="Revenue ($)", showgrid=True, gridcolor="#E8E3DC"),
+                          xaxis=dict(title="Week", showgrid=True, gridcolor="#E4DFD6", dtick=1),
+                          yaxis=dict(title="Revenue ($)", showgrid=True, gridcolor="#E4DFD6"),
                           margin=dict(t=10, b=30, l=10, r=10))
         st.plotly_chart(fig, use_container_width=True)
 
@@ -398,7 +398,7 @@ with r3c2:
             .sort_values(["year", "quarter"])
         )
         fig = go.Figure()
-        for yr, color, dash in [(prior_year, "#C0C0C0", "dot"), (latest_year, "#D46422", "solid")]:
+        for yr, color, dash in [(prior_year, "#B8B0A4", "dot"), (latest_year, "#C67D3A", "solid")]:
             t = trend[trend["year"] == yr]
             fig.add_trace(go.Scatter(
                 x=t["quarter"], y=t["revenue"],
@@ -408,8 +408,8 @@ with r3c2:
             ))
         fig.update_layout(**CHART_BASE, height=330,
                           legend=dict(title="", orientation="h", yanchor="bottom", y=1.02, x=0),
-                          xaxis=dict(title="", showgrid=True, gridcolor="#E8E3DC"),
-                          yaxis=dict(title="Revenue ($)", showgrid=True, gridcolor="#E8E3DC"),
+                          xaxis=dict(title="", showgrid=True, gridcolor="#E4DFD6"),
+                          yaxis=dict(title="Revenue ($)", showgrid=True, gridcolor="#E4DFD6"),
                           margin=dict(t=10, b=30, l=10, r=10))
         st.plotly_chart(fig, use_container_width=True)
 
@@ -433,7 +433,7 @@ with r4c1:
         textposition="outside", cliponaxis=False,
     ))
     fig.update_layout(**CHART_BASE, height=300,
-                      xaxis=dict(title="% Revenue on Promo", showgrid=True, gridcolor="#E8E3DC",
+                      xaxis=dict(title="% Revenue on Promo", showgrid=True, gridcolor="#E4DFD6",
                                  zeroline=False, range=[0, max(promo_summary["promo_pct"]) * 1.25]),
                       yaxis=dict(showgrid=False),
                       margin=dict(t=10, b=30, l=10, r=60))
@@ -454,7 +454,7 @@ with r4c2:
         textposition="outside", cliponaxis=False,
     ))
     fig.update_layout(**CHART_BASE, height=300,
-                      xaxis=dict(title="Avg Distribution %", showgrid=True, gridcolor="#E8E3DC",
+                      xaxis=dict(title="Avg Distribution %", showgrid=True, gridcolor="#E4DFD6",
                                  zeroline=False, range=[0, 115]),
                       yaxis=dict(showgrid=False),
                       margin=dict(t=10, b=30, l=10, r=60))
