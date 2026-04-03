@@ -266,52 +266,7 @@ with r1c2:
                       margin=dict(t=10, b=10, l=10, r=80))
     st.plotly_chart(fig, use_container_width=True)
 
-# ── Row 2: Brand share + Brand share change ───────────────────────────────────
-r2c1, r2c2 = st.columns(2)
-
-with r2c1:
-    hdr(f"Share by Brand ({period_label})")
-    brand_rev = curr_univ.groupby("brand")["revenue"].sum().reset_index()
-    fig = px.pie(
-        brand_rev, values="revenue", names="brand",
-        color="brand", color_discrete_map=BRAND_COLORS,
-        hole=0.45,
-    )
-    fig.update_traces(textposition="inside", textinfo="percent", textfont_size=11)
-    fig.update_layout(**CHART_BASE, height=340,
-                      legend=dict(orientation="h", yanchor="bottom", y=-0.25, xanchor="center", x=0.5),
-                      margin=dict(t=10, b=50, l=10, r=10))
-    st.plotly_chart(fig, use_container_width=True)
-
-with r2c2:
-    hdr(f"Brand Share Change vs Same Period YA")
-    def brand_share(data):
-        total = data["revenue"].sum()
-        s = data.groupby("brand")["revenue"].sum()
-        return (s / total * 100) if total > 0 else s * 0
-
-    bs_c = brand_share(curr_univ)
-    bs_p = brand_share(prior_univ)
-    delta = (bs_c - bs_p).dropna().reset_index()
-    delta.columns = ["brand", "change"]
-    delta = delta.sort_values("change")
-
-    fig = go.Figure(go.Bar(
-        y=delta["brand"], x=delta["change"], orientation="h",
-        marker_color=[BRAND_COLORS.get(b, "#6B6B6B") for b in delta["brand"]],
-        marker_line_color=["#2E7D32" if v >= 0 else "#C44D3F" for v in delta["change"]],
-        marker_line_width=2,
-        text=[f"{v:+.2f}pp" for v in delta["change"]],
-        textposition="outside", cliponaxis=False,
-    ))
-    fig.add_vline(x=0, line_width=1.5, line_color="#E4DFD6")
-    fig.update_layout(**CHART_BASE, height=320,
-                      xaxis=dict(title="Share change vs. YA", showgrid=True, gridcolor="#E4DFD6", zeroline=False),
-                      yaxis=dict(showgrid=False),
-                      margin=dict(t=10, b=10, l=10, r=80))
-    st.plotly_chart(fig, use_container_width=True)
-
-# ── Row 3: Segment YA comparison + Revenue trend ──────────────────────────────
+# ── Row 2: Segment YA comparison + Revenue trend ──────────────────────────────
 r3c1, r3c2 = st.columns(2)
 
 with r3c1:
@@ -412,6 +367,51 @@ with r3c2:
                           yaxis=dict(title="Revenue ($)", showgrid=True, gridcolor="#E4DFD6"),
                           margin=dict(t=10, b=30, l=10, r=10))
         st.plotly_chart(fig, use_container_width=True)
+
+# ── Row 3: Brand share + Brand share change ───────────────────────────────────
+r2c1, r2c2 = st.columns(2)
+
+with r2c1:
+    hdr(f"Share by Brand ({period_label})")
+    brand_rev = curr_univ.groupby("brand")["revenue"].sum().reset_index()
+    fig = px.pie(
+        brand_rev, values="revenue", names="brand",
+        color="brand", color_discrete_map=BRAND_COLORS,
+        hole=0.45,
+    )
+    fig.update_traces(textposition="inside", textinfo="percent", textfont_size=11)
+    fig.update_layout(**CHART_BASE, height=340,
+                      legend=dict(orientation="h", yanchor="bottom", y=-0.25, xanchor="center", x=0.5),
+                      margin=dict(t=10, b=50, l=10, r=10))
+    st.plotly_chart(fig, use_container_width=True)
+
+with r2c2:
+    hdr(f"Brand Share Change vs Same Period YA")
+    def brand_share(data):
+        total = data["revenue"].sum()
+        s = data.groupby("brand")["revenue"].sum()
+        return (s / total * 100) if total > 0 else s * 0
+
+    bs_c = brand_share(curr_univ)
+    bs_p = brand_share(prior_univ)
+    delta = (bs_c - bs_p).dropna().reset_index()
+    delta.columns = ["brand", "change"]
+    delta = delta.sort_values("change")
+
+    fig = go.Figure(go.Bar(
+        y=delta["brand"], x=delta["change"], orientation="h",
+        marker_color=[BRAND_COLORS.get(b, "#6B6B6B") for b in delta["brand"]],
+        marker_line_color=["#2E7D32" if v >= 0 else "#C44D3F" for v in delta["change"]],
+        marker_line_width=2,
+        text=[f"{v:+.2f}pp" for v in delta["change"]],
+        textposition="outside", cliponaxis=False,
+    ))
+    fig.add_vline(x=0, line_width=1.5, line_color="#E4DFD6")
+    fig.update_layout(**CHART_BASE, height=320,
+                      xaxis=dict(title="Share change vs. YA", showgrid=True, gridcolor="#E4DFD6", zeroline=False),
+                      yaxis=dict(showgrid=False),
+                      margin=dict(t=10, b=10, l=10, r=80))
+    st.plotly_chart(fig, use_container_width=True)
 
 # ── Row 4: Promo % + Distribution ─────────────────────────────────────────────
 r4c1, r4c2 = st.columns(2)
