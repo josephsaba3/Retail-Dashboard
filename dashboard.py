@@ -246,70 +246,6 @@ with r1c1:
     st.plotly_chart(fig, use_container_width=True)
 
 with r1c2:
-    hdr(f"Segment Sales Growth vs YA ({period_label})")
-    seg_c = curr_univ.groupby("segment")["revenue"].sum()
-    seg_p = prior_univ.groupby("segment")["revenue"].sum()
-    seg_g = ((seg_c - seg_p) / seg_p * 100).dropna().reset_index()
-    seg_g.columns = ["segment", "growth"]
-    seg_g = seg_g.sort_values("growth")
-
-    fig = go.Figure(go.Bar(
-        y=seg_g["segment"], x=seg_g["growth"], orientation="h",
-        marker_color=["#2E7D32" if v >= 0 else "#C44D3F" for v in seg_g["growth"]],
-        text=[f"{v:+.1f}%" for v in seg_g["growth"]],
-        textposition="outside", cliponaxis=False,
-    ))
-    fig.add_vline(x=0, line_width=1.5, line_color="#E4DFD6")
-    fig.update_layout(**CHART_BASE, height=310,
-                      xaxis=dict(title="% Growth vs YA", showgrid=True, gridcolor="#E4DFD6", zeroline=False),
-                      yaxis=dict(showgrid=False),
-                      margin=dict(t=10, b=10, l=10, r=80))
-    st.plotly_chart(fig, use_container_width=True)
-
-# ── Row 2: Segment YA comparison + Revenue trend ──────────────────────────────
-r3c1, r3c2 = st.columns(2)
-
-with r3c1:
-    hdr("Revenue by Segment: YA Comparison")
-    seg_curr_df = curr_univ.groupby("segment")["revenue"].sum().reset_index()
-    seg_curr_df["period"] = period_label
-    seg_prior_df = prior_univ.groupby("segment")["revenue"].sum().reset_index()
-    seg_prior_df["period"] = prior_label
-    seg_yoy = pd.concat([seg_prior_df, seg_curr_df])
-
-    fig = px.bar(
-        seg_yoy, x="segment", y="revenue", color="period", barmode="group",
-        color_discrete_map={period_label: "#C67D3A", prior_label: "#B8B0A4"},
-        labels={"revenue": "Revenue ($)", "segment": "", "period": ""},
-    )
-
-    # Add % change annotations above each current-period bar
-    segments = seg_curr_df["segment"].tolist()
-    curr_by_seg = seg_curr_df.set_index("segment")["revenue"]
-    prior_by_seg = seg_prior_df.set_index("segment")["revenue"]
-    for seg in segments:
-        c, p = curr_by_seg.get(seg, 0), prior_by_seg.get(seg, 0)
-        if p > 0:
-            chg = (c / p - 1) * 100
-            fig.add_annotation(
-                x=seg,
-                y=max(c, p),
-                text=f"<b>{chg:+.1f}%</b>",
-                showarrow=False,
-                yshift=10,
-                font=dict(size=11, color="#2E7D32" if chg >= 0 else "#C44D3F"),
-                xref="x", yref="y",
-            )
-
-    fig.update_layout(**CHART_BASE, height=350,
-                      legend=dict(title="", orientation="h", yanchor="bottom", y=1.02, x=0),
-                      xaxis_tickangle=-20,
-                      yaxis=dict(showgrid=True, gridcolor="#E4DFD6", title="Revenue ($)"),
-                      xaxis=dict(showgrid=False),
-                      margin=dict(t=30, b=60, l=10, r=10))
-    st.plotly_chart(fig, use_container_width=True)
-
-with r3c2:
     if sel_period == "Latest 4 Weeks":
         hdr("Weekly Revenue Trend (L4W vs YA)")
         # Align by week number within the 4-week window
@@ -367,6 +303,70 @@ with r3c2:
                           yaxis=dict(title="Revenue ($)", showgrid=True, gridcolor="#E4DFD6"),
                           margin=dict(t=10, b=30, l=10, r=10))
         st.plotly_chart(fig, use_container_width=True)
+
+# ── Row 2: Segment YA comparison + Revenue trend ──────────────────────────────
+r3c1, r3c2 = st.columns(2)
+
+with r3c1:
+    hdr("Revenue by Segment: YA Comparison")
+    seg_curr_df = curr_univ.groupby("segment")["revenue"].sum().reset_index()
+    seg_curr_df["period"] = period_label
+    seg_prior_df = prior_univ.groupby("segment")["revenue"].sum().reset_index()
+    seg_prior_df["period"] = prior_label
+    seg_yoy = pd.concat([seg_prior_df, seg_curr_df])
+
+    fig = px.bar(
+        seg_yoy, x="segment", y="revenue", color="period", barmode="group",
+        color_discrete_map={period_label: "#C67D3A", prior_label: "#B8B0A4"},
+        labels={"revenue": "Revenue ($)", "segment": "", "period": ""},
+    )
+
+    # Add % change annotations above each current-period bar
+    segments = seg_curr_df["segment"].tolist()
+    curr_by_seg = seg_curr_df.set_index("segment")["revenue"]
+    prior_by_seg = seg_prior_df.set_index("segment")["revenue"]
+    for seg in segments:
+        c, p = curr_by_seg.get(seg, 0), prior_by_seg.get(seg, 0)
+        if p > 0:
+            chg = (c / p - 1) * 100
+            fig.add_annotation(
+                x=seg,
+                y=max(c, p),
+                text=f"<b>{chg:+.1f}%</b>",
+                showarrow=False,
+                yshift=10,
+                font=dict(size=11, color="#2E7D32" if chg >= 0 else "#C44D3F"),
+                xref="x", yref="y",
+            )
+
+    fig.update_layout(**CHART_BASE, height=350,
+                      legend=dict(title="", orientation="h", yanchor="bottom", y=1.02, x=0),
+                      xaxis_tickangle=-20,
+                      yaxis=dict(showgrid=True, gridcolor="#E4DFD6", title="Revenue ($)"),
+                      xaxis=dict(showgrid=False),
+                      margin=dict(t=30, b=60, l=10, r=10))
+    st.plotly_chart(fig, use_container_width=True)
+
+with r3c2:
+    hdr(f"Segment Sales Growth vs YA ({period_label})")
+    seg_c = curr_univ.groupby("segment")["revenue"].sum()
+    seg_p = prior_univ.groupby("segment")["revenue"].sum()
+    seg_g = ((seg_c - seg_p) / seg_p * 100).dropna().reset_index()
+    seg_g.columns = ["segment", "growth"]
+    seg_g = seg_g.sort_values("growth")
+
+    fig = go.Figure(go.Bar(
+        y=seg_g["segment"], x=seg_g["growth"], orientation="h",
+        marker_color=["#2E7D32" if v >= 0 else "#C44D3F" for v in seg_g["growth"]],
+        text=[f"{v:+.1f}%" for v in seg_g["growth"]],
+        textposition="outside", cliponaxis=False,
+    ))
+    fig.add_vline(x=0, line_width=1.5, line_color="#E4DFD6")
+    fig.update_layout(**CHART_BASE, height=310,
+                      xaxis=dict(title="% Growth vs YA", showgrid=True, gridcolor="#E4DFD6", zeroline=False),
+                      yaxis=dict(showgrid=False),
+                      margin=dict(t=10, b=10, l=10, r=80))
+    st.plotly_chart(fig, use_container_width=True)
 
 # ── Row 3: Brand share + Brand share change ───────────────────────────────────
 r2c1, r2c2 = st.columns(2)
