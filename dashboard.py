@@ -407,7 +407,7 @@ with r2c2:
         textposition="outside", cliponaxis=False,
     ))
     fig.add_vline(x=0, line_width=1.5, line_color="#E4DFD6")
-    fig.update_layout(**CHART_BASE, height=320,
+    fig.update_layout(**CHART_BASE, height=340,
                       xaxis=dict(title="Share change vs. YA", showgrid=True, gridcolor="#E4DFD6", zeroline=False),
                       yaxis=dict(showgrid=False),
                       margin=dict(t=10, b=10, l=10, r=80))
